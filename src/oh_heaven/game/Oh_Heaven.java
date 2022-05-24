@@ -197,11 +197,11 @@ private void initRound() {
 
  // vk code
  // return random Card from ArrayList
- public static Card legalRandomCard(ArrayList<Card> list, Suit lead, Suit trumps){
+ public static Card legalRandomCard(ArrayList<Card> list, Suit lead){
 	ArrayList<Card> valid = new ArrayList<Card>();
 	for (int i =0; i<list.size(); i++) {
 		Suit currCard = (Suit)list.get(i).getSuit();
-		if ( (currCard == lead) || (currCard == trumps) ){
+		if ( currCard == lead ){
 			valid.add(list.get(i));
 		}
 	}
@@ -228,7 +228,7 @@ private void initRound() {
 	Card winningCard;
 
 	// vk code
-	Suit lead = null;
+	Suit lead;
 	// vk code
 
 	int nextPlayer = random.nextInt(nbPlayers); // randomly select player to lead for this round
@@ -248,9 +248,9 @@ private void initRound() {
 			} else {
 				setStatusText("Player " + nextPlayer + " thinking...");
 				delay(thinkingTime);
-
 				// vk code
-				selected = legalRandomCard(hands[nextPlayer].getCardList(), lead, trumps);
+				selected = randomCard(hands[nextPlayer]);
+
 			}
 
         	// Lead with selected card
@@ -279,7 +279,7 @@ private void initRound() {
 					delay(thinkingTime);
 
 					// vk code
-					selected = legalRandomCard(hands[nextPlayer].getCardList(), lead, trumps);
+					selected = legalRandomCard(hands[nextPlayer].getCardList(), lead);
 				}
 
 				// Follow with selected card
