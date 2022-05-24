@@ -40,13 +40,7 @@ public class Oh_Heaven extends CardGame {
       int x = random.nextInt(hand.getNumberOfCards());
       return hand.get(x);
   }
- 
-  // return random Card from ArrayList
-  public static Card randomCard(ArrayList<Card> list){
-      int x = random.nextInt(list.size());
-      return list.get(x);
-  }
-  
+
   private void dealingOut(Hand[] hands, int nbPlayers, int nbCardsPerPlayer) {
 	  Hand pack = deck.toHand(false);
 	  // pack.setView(Oh_Heaven.this, new RowLayout(hideLocation, 0));
@@ -90,17 +84,16 @@ public class Oh_Heaven extends CardGame {
   private Actor[] scoreActors = {null, null, null, null };
   private final Location trickLocation = new Location(350, 350);
   private final Location textLocation = new Location(350, 450);
-  private final int thinkingTime = 2000;
-  private Hand[] hands;
+	private Hand[] hands;
   private Location hideLocation = new Location(-500, - 500);
   private Location trumpsActorLocation = new Location(50, 50);
   private boolean enforceRules=false;
 
   public void setStatus(String string) { setStatusText(string); }
   
-private int[] scores = new int[nbPlayers];
-private int[] tricks = new int[nbPlayers];
-private int[] bids = new int[nbPlayers];
+private int[] scores = new int[nbPlayers]; // array of scores for each player
+private int[] tricks = new int[nbPlayers]; // array of tricks for each player
+private int[] bids = new int[nbPlayers]; // array of bids for each player
 
 Font bigFont = new Font("Serif", Font.BOLD, 36);
 
@@ -170,6 +163,17 @@ private void initRound() {
 		 for (int i = 0; i < nbPlayers; i++) {
 			   hands[i].sort(Hand.SortType.SUITPRIORITY, true);
 		 }
+
+		// vk code
+		for (int i=0; i<nbPlayers; i++) {
+			System.out.println("Player " + i + " cards");
+			for (int j=0; j<nbStartCards; j++){
+				System.out.println(hands[i].getCardList().get(j).getRankId() + ", " + hands[i].getCardList().get(j).getSuit());
+			}
+			System.out.println();
+		}
+		// vk code
+
 		 // Set up human player for interaction
 		CardListener cardListener = new CardAdapter()  // Human Player plays card
 			    {
@@ -191,34 +195,65 @@ private void initRound() {
 	    // End graphics
  }
 
-private void playRound() {
+ // vk code
+ // return random Card from ArrayList
+ public static Card legalRandomCard(ArrayList<Card> list, Suit lead, Suit trumps){
+	ArrayList<Card> valid = new ArrayList<Card>();
+	for (int i =0; i<list.size(); i++) {
+		Suit currCard = (Suit)list.get(i).getSuit();
+		if ( (currCard == lead) || (currCard == trumps) ){
+			valid.add(list.get(i));
+		}
+	}
+	if (valid.size() != 0) {
+		int x = random.nextInt(valid.size());
+		return valid.get(x);
+	}
+	else {
+		int x = random.nextInt(list.size());
+		return list.get(x);
+	}
+}
+// vk code
+
+	private void playRound() {
 	// Select and display trump suit
 		final Suit trumps = randomEnum(Suit.class);
 		final Actor trumpsActor = new Actor("sprites/"+trumpImage[trumps.ordinal()]);
 	    addActor(trumpsActor, trumpsActorLocation);
 	// End trump suit
+
 	Hand trick;
 	int winner;
 	Card winningCard;
-	Suit lead;
+
+	// vk code
+	Suit lead = null;
+	// vk code
+
 	int nextPlayer = random.nextInt(nbPlayers); // randomly select player to lead for this round
 	initBids(trumps, nextPlayer);
     // initScore();
-    for (int i = 0; i < nbPlayers; i++) updateScore(i);
-	for (int i = 0; i < nbStartCards; i++) {
-		trick = new Hand(deck);
-    	selected = null;
-    	// if (false) {
-        if (0 == nextPlayer) {  // Select lead depending on player type
-    		hands[0].setTouchEnabled(true);
-    		setStatus("Player 0 double-click on card to lead.");
-    		while (null == selected) delay(100);
-        } else {
-    		setStatusText("Player " + nextPlayer + " thinking...");
-            delay(thinkingTime);
-            selected = randomCard(hands[nextPlayer]);
-        }
-        // Lead with selected card
+    for (int i = 0; i < nbPlayers; i++)
+    	updateScore(i);
+		for (int i = 0; i < nbStartCards; i++) {
+			trick = new Hand(deck);
+			selected = null;
+			// if (false) {
+			int thinkingTime = 2000;
+			if (0 == nextPlayer) {  // Select lead depending on player type
+				hands[0].setTouchEnabled(true);
+				setStatus("Player 0 double-click on card to lead.");
+				while (null == selected) delay(100);
+			} else {
+				setStatusText("Player " + nextPlayer + " thinking...");
+				delay(thinkingTime);
+
+				// vk code
+				selected = legalRandomCard(hands[nextPlayer].getCardList(), lead, trumps);
+			}
+
+        	// Lead with selected card
 	        trick.setView(this, new RowLayout(trickLocation, (trick.getNumberOfCards()+2)*trickWidth));
 			trick.draw();
 			selected.setVerso(false);
@@ -227,78 +262,93 @@ private void playRound() {
 			selected.transfer(trick, true); // transfer to trick (includes graphic effect)
 			winner = nextPlayer;
 			winningCard = selected;
-		// End Lead
-		for (int j = 1; j < nbPlayers; j++) {
-			if (++nextPlayer >= nbPlayers) nextPlayer = 0;  // From last back to first
-			selected = null;
-			// if (false) {
-	        if (0 == nextPlayer) {
-	    		hands[0].setTouchEnabled(true);
-	    		setStatus("Player 0 double-click on card to follow.");
-	    		while (null == selected) delay(100);
-	        } else {
-		        setStatusText("Player " + nextPlayer + " thinking...");
-		        delay(thinkingTime);
-		        selected = randomCard(hands[nextPlayer]);
-	        }
-	        // Follow with selected card
-		        trick.setView(this, new RowLayout(trickLocation, (trick.getNumberOfCards()+2)*trickWidth));
+			// End Lead
+
+			for (int j = 1; j < nbPlayers; j++) {
+				if (++nextPlayer >= nbPlayers)
+					nextPlayer = 0;  // From last back to first
+
+				selected = null;
+				// if (false) {
+				if (0 == nextPlayer) {
+					hands[0].setTouchEnabled(true);
+					setStatus("Player 0 double-click on card to follow.");
+					while (null == selected) delay(100);
+				} else {
+					setStatusText("Player " + nextPlayer + " thinking...");
+					delay(thinkingTime);
+
+					// vk code
+					selected = legalRandomCard(hands[nextPlayer].getCardList(), lead, trumps);
+				}
+
+				// Follow with selected card
+				trick.setView(this, new RowLayout(trickLocation, (trick.getNumberOfCards()+2)*trickWidth));
 				trick.draw();
 				selected.setVerso(false);  // In case it is upside down
+
 				// Check: Following card must follow suit if possible
-					if (selected.getSuit() != lead && hands[nextPlayer].getNumberOfCardsWithSuit(lead) > 0) {
-						 // Rule violation
-						 String violation = "Follow rule broken by player " + nextPlayer + " attempting to play " + selected;
-						 System.out.println(violation);
-						 if (enforceRules) 
-							 try {
-								 throw(new BrokeRuleException(violation));
-								} catch (BrokeRuleException e) {
-									e.printStackTrace();
-									System.out.println("A cheating player spoiled the game!");
-									System.exit(0);
-								}  
-					 }
+				if (selected.getSuit() != lead && hands[nextPlayer].getNumberOfCardsWithSuit(lead) > 0) {
+					// Rule violation
+					String violation = "Follow rule broken by player " + nextPlayer + " attempting to play " + selected;
+					System.out.println(violation);
+					if (enforceRules)
+						try {
+							throw(new BrokeRuleException(violation));
+						}
+						catch (BrokeRuleException e) {
+							e.printStackTrace();
+							System.out.println("A cheating player spoiled the game!");
+							System.exit(0);
+						}
+				}
 				// End Check
-				 selected.transfer(trick, true); // transfer to trick (includes graphic effect)
-				 System.out.println("winning: " + winningCard);
-				 System.out.println(" played: " + selected);
-				 // System.out.println("winning: suit = " + winningCard.getSuit() + ", rank = " + (13 - winningCard.getRankId()));
-				 // System.out.println(" played: suit = " +    selected.getSuit() + ", rank = " + (13 -    selected.getRankId()));
-				 if ( // beat current winner with higher card
-					 (selected.getSuit() == winningCard.getSuit() && rankGreater(selected, winningCard)) ||
-					  // trumped when non-trump was winning
-					 (selected.getSuit() == trumps && winningCard.getSuit() != trumps)) {
-					 System.out.println("NEW WINNER");
-					 winner = nextPlayer;
-					 winningCard = selected;
-				 }
-			// End Follow
+
+				selected.transfer(trick, true); // transfer to trick (includes graphic effect)
+
+				System.out.println("winning: " + winningCard);
+				System.out.println(" played: " + selected);
+				// System.out.println("winning: suit = " + winningCard.getSuit() + ", rank = " + (13 - winningCard.getRankId()));
+				// System.out.println(" played: suit = " +    selected.getSuit() + ", rank = " + (13 -    selected.getRankId()));
+
+				if ( // beat current winner with higher card
+						 (selected.getSuit() == winningCard.getSuit() && rankGreater(selected, winningCard)) ||
+						  // trumped when non-trump was winning
+						 (selected.getSuit() == trumps && winningCard.getSuit() != trumps)) {
+						 System.out.println("NEW WINNER");
+						 winner = nextPlayer;
+						 winningCard = selected;
+					 	}
+				// End Follow
+			}
+			delay(600);
+			trick.setView(this, new RowLayout(hideLocation, 0));
+			trick.draw();
+			nextPlayer = winner;
+			setStatusText("Player " + nextPlayer + " wins trick.");
+			tricks[nextPlayer]++;
+			updateScore(nextPlayer);
 		}
-		delay(600);
-		trick.setView(this, new RowLayout(hideLocation, 0));
-		trick.draw();		
-		nextPlayer = winner;
-		setStatusText("Player " + nextPlayer + " wins trick.");
-		tricks[nextPlayer]++;
-		updateScore(nextPlayer);
+		removeActor(trumpsActor);
 	}
-	removeActor(trumpsActor);
-}
 
   public Oh_Heaven()
   {
+  	// headers
 	super(700, 700, 30);
     setTitle("Oh_Heaven (V" + version + ") Constructed for UofM SWEN30006 with JGameGrid (www.aplu.ch)");
     setStatusText("Initializing...");
-    initScores();
-    initScore();
+
+    initScores(); // initialize scores of each player to 0
+    initScore(); // set GUI of scores, tricks and bids of each player
+
     for (int i=0; i <nbRounds; i++) {
-      initTricks();
-      initRound();
+      initTricks(); // initialize tricks of each player to 0
+      initRound(); // initialize a hand with 13 cards for each player
       playRound();
       updateScores();
     };
+
     for (int i=0; i <nbPlayers; i++) updateScore(i);
     int maxScore = 0;
     for (int i = 0; i <nbPlayers; i++) if (scores[i] > maxScore) maxScore = scores[i];
