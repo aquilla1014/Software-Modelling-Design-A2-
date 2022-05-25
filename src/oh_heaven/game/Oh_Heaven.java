@@ -231,7 +231,7 @@ public Card smartPlay(Hand hand, Suit lead, Suit trumps, Hand trick, int score, 
 	ArrayList<Card> validTable = trick.getCardsWithSuit(lead);
 
 
-	ArrayList<Card> list = hand.getCardList();
+	// ArrayList<Card> list = hand.getCardList();
 	ArrayList<Card> valid = hand.getCardsWithSuit(lead);
 	ArrayList<Card> trump = hand.getCardsWithSuit(trumps);
 
@@ -251,8 +251,12 @@ public Card smartPlay(Hand hand, Suit lead, Suit trumps, Hand trick, int score, 
 			return trump.get(0);
 		}
 		else {
+			/*
 			int x = random.nextInt(list.size());
 			return list.get(x);
+			 */
+			hand.sort(Hand.SortType.RANKPRIORITY, true);
+			return hand.getLast();
 		}
 	}
 
