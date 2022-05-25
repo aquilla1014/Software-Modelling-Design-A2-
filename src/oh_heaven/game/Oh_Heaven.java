@@ -197,14 +197,11 @@ private void initRound() {
 
  // vk code
  // return random Card from ArrayList
- public static Card legalRandomCard(ArrayList<Card> list, Suit lead){
-	ArrayList<Card> valid = new ArrayList<Card>();
-	for (int i =0; i<list.size(); i++) {
-		Suit currCard = (Suit)list.get(i).getSuit();
-		if ( currCard == lead ){
-			valid.add(list.get(i));
-		}
-	}
+ public static Card legalRandomCard(Hand hand, Suit lead){
+
+	ArrayList<Card> list = hand.getCardList();
+	ArrayList<Card> valid = hand.getCardsWithSuit(lead);
+
 	if (valid.size() != 0) {
 		int x = random.nextInt(valid.size());
 		return valid.get(x);
@@ -216,6 +213,67 @@ private void initRound() {
 }
 // vk code
 
+	public static final Comparator<Card> rankComparator = new Comparator<Card>(){
+
+		@Override
+		public int compare(Card o1, Card o2) {
+			return o2.getRankId() - o1.getRankId();  // This will work because age is positive integer
+		}
+
+	};
+
+// static ?
+public Card smartPlay(Hand hand, Suit lead, Suit trumps, Hand trick, int score, int bid){
+	// System.out.println("score: " + score + ", bid: " + bid);
+
+	trick.sort(Hand.SortType.SUITPRIORITY, true);
+	ArrayList<Card> table = trick.getCardList();
+	ArrayList<Card> validTable = trick.getCardsWithSuit(lead);
+
+
+	ArrayList<Card> list = hand.getCardList();
+	ArrayList<Card> valid = hand.getCardsWithSuit(lead);
+	ArrayList<Card> trump = hand.getCardsWithSuit(trumps);
+
+	ArrayList<Card> spade = hand.getCardsWithSuit(Suit.SPADES);
+	ArrayList<Card> club = hand.getCardsWithSuit(Suit.CLUBS);
+	ArrayList<Card> heart = hand.getCardsWithSuit(Suit.HEARTS);
+	ArrayList<Card> diamond = hand.getCardsWithSuit(Suit.DIAMONDS);
+
+	if (valid.size() == 0) {
+		if (trump.size() == 1) {
+			return trump.get(0);
+		}
+		else if (trump.size() > 1 ) {
+
+			Collections.sort(trump, rankComparator);
+
+			return trump.get(0);
+		}
+		else {
+			int x = random.nextInt(list.size());
+			return list.get(x);
+		}
+	}
+
+	else if (valid.size() == 1){
+		return valid.get(0);
+	}
+
+	else
+	{
+		Collections.sort(valid, rankComparator);
+		// return valid.get(valid.size() -1 );
+
+		for (int i=0; i<valid.size();i++){
+			if (rankGreater(valid.get(i), validTable.get(0))) {
+				return valid.get(i);
+			}
+		}
+		return valid.get(0);
+	}
+}
+
 	private void playRound() {
 	// Select and display trump suit
 		final Suit trumps = randomEnum(Suit.class);
@@ -226,10 +284,7 @@ private void initRound() {
 	Hand trick;
 	int winner;
 	Card winningCard;
-
-	// vk code
 	Suit lead;
-	// vk code
 
 	int nextPlayer = random.nextInt(nbPlayers); // randomly select player to lead for this round
 	initBids(trumps, nextPlayer);
@@ -248,9 +303,7 @@ private void initRound() {
 			} else {
 				setStatusText("Player " + nextPlayer + " thinking...");
 				delay(thinkingTime);
-				// vk code
 				selected = randomCard(hands[nextPlayer]);
-
 			}
 
         	// Lead with selected card
@@ -279,7 +332,7 @@ private void initRound() {
 					delay(thinkingTime);
 
 					// vk code
-					selected = legalRandomCard(hands[nextPlayer].getCardList(), lead);
+					selected = smartPlay(hands[nextPlayer], lead, trumps, trick, tricks[nextPlayer], bids[nextPlayer]);
 				}
 
 				// Follow with selected card
