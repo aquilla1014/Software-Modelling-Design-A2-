@@ -1,20 +1,20 @@
 package oh_heaven.game;
 
-import ch.aplu.jcardgame.Card;
-import ch.aplu.jcardgame.Hand;
 
-public abstract class NPC {
-    private Hand hands[];
-    private int scores[];
-    private int tricks[];
-    private int bids[];
-    private Card selected;
+import ch.aplu.jcardgame.*;
+import oh_heaven.game.Oh_Heaven.*;
 
-    public NPC(){
 
+public abstract class NPC extends Player {
+    private TrickStrategy strategy;
+
+    public NPC(String type, TrickStrategy strategy) {
+        super(type);
+        this.strategy = strategy;
     }
 
-    public abstract void selectCard();
-    public abstract void playTrick();
+    public TrickStrategy getStrategy() {
+        return this.strategy;
+    }
 
 }

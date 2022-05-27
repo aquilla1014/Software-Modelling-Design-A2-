@@ -2,11 +2,11 @@ package oh_heaven.game;
 
 public class Smart extends NPC {
 
-    public void selectCard() {
+    private static final String TYPE = "smart";
+    private static final TrickStrategy STRATEGY = new SmartStrategy();
 
+    public Smart(){
+        super(TYPE, STRATEGY);
     }
 
-    public void playTrick() {
-
-    }
 }

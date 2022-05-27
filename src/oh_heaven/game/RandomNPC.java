@@ -6,13 +6,13 @@ import oh_heaven.game.Oh_Heaven.*;
 
 import java.util.ArrayList;
 
-public class Legal extends NPC {
+public class RandomNPC extends NPC{
+    private static final String TYPE = "random";
+    private static final TrickStrategy STRATEGY = new RandomStrategy();
 
-    private static final String TYPE = "legal";
-    private static final TrickStrategy STRATEGY = new LegalStrategy();
-
-    public Legal(){
+    public RandomNPC(){
         super(TYPE, STRATEGY);
     }
+
 
 }
