@@ -11,11 +11,13 @@ import java.util.stream.Collectors;
 
 @SuppressWarnings("serial")
 public class Oh_Heaven extends CardGame {
-	
+
   public enum Suit
   {
     SPADES, HEARTS, DIAMONDS, CLUBS
   }
+
+
 
   public enum Rank
   {
@@ -24,8 +26,8 @@ public class Oh_Heaven extends CardGame {
 	ACE, KING, QUEEN, JACK, TEN, NINE, EIGHT, SEVEN, SIX, FIVE, FOUR, THREE, TWO
   }
   
-  final String trumpImage[] = {"bigspade.gif","bigheart.gif","bigdiamond.gif","bigclub.gif"};
-
+  //final String trumpImage[] = {"bigspade.gif","bigheart.gif","bigdiamond.gif","bigclub.gif"};
+//move seed to property file
   static public final int seed = 30006;
   static final Random random = new Random(seed);
   
@@ -59,35 +61,8 @@ public class Oh_Heaven extends CardGame {
   public boolean rankGreater(Card card1, Card card2) {
 	  return card1.getRankId() < card2.getRankId(); // Warning: Reverse rank order of cards (see comment on enum)
   }
-	 
-  private final String version = "1.0";
-  public final int nbPlayers = 4;
-  public final int nbStartCards = 13;
-  public final int nbRounds = 3;
-  public final int madeBidBonus = 10;
-  private final int handWidth = 400;
-  private final int trickWidth = 40;
+
   private final Deck deck = new Deck(Suit.values(), Rank.values(), "cover");
-  private final Location[] handLocations = {
-			  new Location(350, 625),
-			  new Location(75, 350),
-			  new Location(350, 75),
-			  new Location(625, 350)
-	  };
-  private final Location[] scoreLocations = {
-			  new Location(575, 675),
-			  new Location(25, 575),
-			  new Location(575, 25),
-			  // new Location(650, 575)
-			  new Location(575, 575)
-	  };
-  private Actor[] scoreActors = {null, null, null, null };
-  private final Location trickLocation = new Location(350, 350);
-  private final Location textLocation = new Location(350, 450);
-	private Hand[] hands;
-  private Location hideLocation = new Location(-500, - 500);
-  private Location trumpsActorLocation = new Location(50, 50);
-  private boolean enforceRules=false;
 
   public void setStatus(String string) { setStatusText(string); }
   
@@ -430,7 +405,7 @@ public Card smartPlay(Hand hand, Suit lead, Suit trumps, Hand trick, int score, 
 	// System.out.println("Working Directory = " + System.getProperty("user.dir"));
 	final Properties properties;
 	if (args == null || args.length == 0) {
-	//  properties = PropertiesLoader.loadPropertiesFile(null);
+	properties = PropertiesLoader.loadPropertiesFile(null);
 	} else {
 	//      properties = PropertiesLoader.loadPropertiesFile(args[0]);
 	}
