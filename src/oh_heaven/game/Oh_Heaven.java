@@ -15,9 +15,7 @@ public class Oh_Heaven extends CardGame {
 	private final String version = "1.0";
 	Font bigFont = new Font("Serif", Font.BOLD, 36);
 	final String trumpImage[] = {"bigspade.gif","bigheart.gif","bigdiamond.gif","bigclub.gif"};
-	public final int nbPlayers = 4;
 
-	public final int madeBidBonus = 10;
 	private final int handWidth = 400;
 	private final int trickWidth = 40;
 	private final Deck deck = new Deck(Suit.values(), Rank.values(), "cover");
@@ -34,7 +32,7 @@ public class Oh_Heaven extends CardGame {
 			// new Location(650, 575)
 			new Location(575, 575)
 	};
-	private Actor[] scoreActors = {null, null, null, null };
+
 	private final Location trickLocation = new Location(350, 350);
 	private final Location textLocation = new Location(350, 450);
 	private Location hideLocation = new Location(-500, - 500);
@@ -43,16 +41,17 @@ public class Oh_Heaven extends CardGame {
 	private Card selected;
 	static Random random;
 	private int nbStartCards;
+	private int nbPlayers;
+	private int madeBidBonus;
 	private int nbRounds;
 	private boolean enforceRules;
 	private List<Player> allPlayers;
+	private Actor[] scoreActors;
 	
   public enum Suit
   {
     SPADES, HEARTS, DIAMONDS, CLUBS
   }
-
-
 
   public enum Rank
   {
@@ -94,7 +93,9 @@ public class Oh_Heaven extends CardGame {
 
   public void setStatus(String string) { setStatusText(string); }
 
-
+private void initScoreActor(){
+  	scoreActors = new Actor[nbPlayers];
+}
 
 private void initScore() {
 	 for (int i = 0; i < nbPlayers; i++) {
@@ -331,11 +332,14 @@ private void initRound() {
     setStatusText("Initializing...");
 
 	random = PropertiesLoader.loadSeed(properties);
+	nbPlayers = PropertiesLoader.loadTotalPlayers(properties);
 	allPlayers = PropertiesLoader.loadNPC(properties, nbPlayers);
 	nbStartCards = PropertiesLoader.loadStartCards(properties);
 	nbRounds = PropertiesLoader.loadRounds(properties);
+	madeBidBonus = PropertiesLoader.loadBidBonus(properties);
 	enforceRules = PropertiesLoader.loadRules(properties);
 
+	initScoreActor();
 	initScore(); // set GUI of scores, tricks and bids of each player
 
     for (int i=0; i <nbRounds; i++) {

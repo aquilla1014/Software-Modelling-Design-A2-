@@ -10,8 +10,11 @@ import java.util.Random;
 
 public class PropertiesLoader {
     public static final String DEFAULT_DIRECTORY_PATH = "properties/";
+
     private static final int NBSTARTCARDS = 13;
     private static final int NBROUNDS = 3;
+    private static final int NBPLAYERS = 4;
+    public static final int BIDBONUS = 10;
     private static boolean ENFORCERULES= false;
 
     public static Properties loadPropertiesFile(String propertiesFile) {
@@ -62,6 +65,28 @@ public class PropertiesLoader {
         }
         else {
             return NBSTARTCARDS;
+        }
+    }
+
+    public static int loadTotalPlayers (Properties properties){
+        String nbPlayers = properties.getProperty("nbPlayers");
+
+        if (nbPlayers != null) {
+            return Integer.parseInt(properties.getProperty("nbPlayers"));
+        }
+        else {
+            return NBPLAYERS;
+        }
+    }
+
+    public static int loadBidBonus (Properties properties){
+        String bidBonus = properties.getProperty("madeBidBonus");
+
+        if (bidBonus != null) {
+            return Integer.parseInt(properties.getProperty("madeBidBonus"));
+        }
+        else {
+            return BIDBONUS;
         }
     }
 
