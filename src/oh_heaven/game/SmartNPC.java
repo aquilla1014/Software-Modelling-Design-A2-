@@ -1,11 +1,14 @@
 package oh_heaven.game;
 
-public class Smart extends NPC {
+// A Smart NPC, extended from NPC
+public class SmartNPC extends NPC {
 
     private static final String TYPE = "smart";
+
+    // smart NPC uses smart strategy
     private static final TrickStrategy STRATEGY = new SmartStrategy();
 
-    public Smart(){
+    public SmartNPC(){
         super(TYPE, STRATEGY);
     }
 

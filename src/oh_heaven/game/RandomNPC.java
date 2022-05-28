@@ -1,13 +1,10 @@
 package oh_heaven.game;
 
-import ch.aplu.jcardgame.Card;
-import ch.aplu.jcardgame.Hand;
-import oh_heaven.game.Oh_Heaven.*;
-
-import java.util.ArrayList;
-
+// A Random NPC, extended from NPC
 public class RandomNPC extends NPC{
     private static final String TYPE = "random";
+
+    // random NPC uses random strategy
     private static final TrickStrategy STRATEGY = new RandomStrategy();
 
     public RandomNPC(){

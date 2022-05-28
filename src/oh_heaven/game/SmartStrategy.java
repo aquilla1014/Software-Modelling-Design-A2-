@@ -7,62 +7,67 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class SmartStrategy implements TrickStrategy{
+// A smart strategy used by smart NPC
+public class SmartStrategy implements TrickStrategy {
 
-    public static final Comparator<Card> rankComparator = new Comparator<Card>(){
-
+    // a custom comparator method to compare card's rank
+    // used to sort
+    public static final Comparator<Card> rankComparator = new Comparator<Card>() {
         @Override
         public int compare(Card o1, Card o2) {
-            return o2.getRankId() - o1.getRankId();  // This will work because age is positive integer
+            return o2.getRankId() - o1.getRankId();
         }
-
     };
 
+    // method to compare card's rank
     public static boolean rankGreater(Card card1, Card card2) {
-        return card1.getRankId() < card2.getRankId(); // Warning: Reverse rank order of cards (see comment on enum)
+        return card1.getRankId() < card2.getRankId();
     }
 
+    // select a legal card, outputted by the smart strategy's logic
     public Card selectCard(Suit lead, Suit trumps, Hand trick, Hand hand) {
         trick.sort(Hand.SortType.SUITPRIORITY, true);
-        ArrayList<Card> table = trick.getCardList();
+
         ArrayList<Card> validTable = trick.getCardsWithSuit(lead);
-
-
-        // ArrayList<Card> list = hand.getCardList();
         ArrayList<Card> valid = hand.getCardsWithSuit(lead);
         ArrayList<Card> trump = hand.getCardsWithSuit(trumps);
 
-        /*
-        ArrayList<Card> spade = getHand().getCardsWithSuit(Oh_Heaven.Suit.SPADES);
-        ArrayList<Card> club = getHand().getCardsWithSuit(Oh_Heaven.Suit.CLUBS);
-        ArrayList<Card> heart = getHand().getCardsWithSuit(Oh_Heaven.Suit.HEARTS);
-        ArrayList<Card> diamond = getHand().getCardsWithSuit(Oh_Heaven.Suit.DIAMONDS);
-        */
+        if (lead == null) {
+            // Smart NPC player leads the round, returns the highest ranked card it has
+            hand.sort(Hand.SortType.RANKPRIORITY, true);
+            return hand.getFirst();
+        }
 
-        if (valid.size() == 0) {
+        else if (valid.size() == 0) {
+            // no valid card available on hand, consider some options
+
             if (trump.size() == 1) {
+                // returns the only trump card it has
                 return trump.get(0);
-            }
-            else if (trump.size() > 1 ) {
-
+            } else if (trump.size() > 1) {
+                // returns the lowest ranked trump card it has
                 Collections.sort(trump, rankComparator);
-
                 return trump.get(0);
-            }
-            else {
+            } else {
+                // no trumps, and no valids
+                // returns lowest ranked card it has
                 hand.sort(Hand.SortType.RANKPRIORITY, true);
                 return hand.getLast();
             }
         }
 
-        else if (valid.size() == 1){
+        else if (valid.size() == 1) {
+            // only a single valid card on hand, return it
             return valid.get(0);
         }
 
-        else
-        {
+        else {
+            // valid cards are on hand
+
             Collections.sort(valid, rankComparator);
-            for (int i=0; i<valid.size();i++){
+            for (int i = 0; i < valid.size(); i++) {
+                // finds the lowest ranked valid card which could win the current round
+                // based on what cards are placed on the table
                 if (rankGreater(valid.get(i), validTable.get(0))) {
                     return valid.get(i);
                 }
@@ -70,4 +75,7 @@ public class SmartStrategy implements TrickStrategy{
             return valid.get(0);
         }
     }
+
 }
+
+

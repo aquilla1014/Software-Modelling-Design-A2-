@@ -127,11 +127,11 @@ public class PropertiesLoader {
                 allPlayers.add(random);
             }
             if (NPCType.equals("legal")) {
-                Player legal = new Legal();
+                Player legal = new LegalNPC();
                 allPlayers.add(legal);
             }
             if (NPCType.equals("smart")){
-                Player smart = new Smart();
+                Player smart = new SmartNPC();
                 allPlayers.add(smart);
             }
         }
