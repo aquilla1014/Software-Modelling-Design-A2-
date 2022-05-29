@@ -117,21 +117,22 @@ public class PropertiesLoader {
         ArrayList<Player> allPlayers = new ArrayList<Player>();
 
         for (int i=0; i<nbPlayers; i++){
+            // variable 'i' becomes the index of the player
             String NPCType = properties.getProperty("players." + i);
             if (NPCType.equals("human")) {
-                Player human = new Human();
+                Player human = new Human(i);
                 allPlayers.add(human);
             }
             if (NPCType.equals("random")) {
-                Player random = new RandomNPC();
+                Player random = new RandomNPC(i);
                 allPlayers.add(random);
             }
             if (NPCType.equals("legal")) {
-                Player legal = new LegalNPC();
+                Player legal = new LegalNPC(i);
                 allPlayers.add(legal);
             }
             if (NPCType.equals("smart")){
-                Player smart = new SmartNPC();
+                Player smart = new SmartNPC(i);
                 allPlayers.add(smart);
             }
         }

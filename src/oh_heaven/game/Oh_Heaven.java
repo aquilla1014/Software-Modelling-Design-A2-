@@ -210,6 +210,33 @@ public class Oh_Heaven extends CardGame {
 		// End graphics
  	}
 
+ 	// method to get trick points of all players
+ 	private Map<Integer, Integer> getAllTricks(){
+		Map<Integer, Integer> playerTricks = new HashMap<Integer, Integer>() ;
+		for (int i=0; i<nbPlayers;i++){
+			playerTricks.put(i, allPlayers.get(i).getTrick());
+		}
+		return playerTricks;
+	}
+
+	// method to get scores of all players
+	private Map<Integer, Integer> getAllScores(){
+		Map<Integer, Integer> playerScores = new HashMap<Integer, Integer>() ;
+		for (int i=0; i<nbPlayers;i++){
+			playerScores.put(i, allPlayers.get(i).getScore());
+		}
+		return playerScores;
+	}
+
+	// method to get bids of all players
+	private Map<Integer, Integer> getAllBids(){
+		Map<Integer, Integer> playerBids = new HashMap<Integer, Integer>() ;
+		for (int i=0; i<nbPlayers;i++){
+			playerBids.put(i, allPlayers.get(i).getBid());
+		}
+		return playerBids;
+	}
+
 	private void playRound() {
 	// Select and display trump suit
 		final Suit trumps = randomEnum(Suit.class);
@@ -217,10 +244,12 @@ public class Oh_Heaven extends CardGame {
 	    addActor(trumpsActor, trumpsActorLocation);
 	// End trump suit
 
-	Hand trick;
 	int winner;
 	Card winningCard;
+
+	Hand trick;
 	Suit lead = null;
+	Table table;
 
 	int nextPlayer = random.nextInt(nbPlayers); // randomly select player to lead for this round
 	initBids(trumps, nextPlayer);
@@ -237,13 +266,15 @@ public class Oh_Heaven extends CardGame {
 			// if (false) {
 			int thinkingTime = 2000;
 
+			table = new Table(trick, lead, trumps, getAllScores(), getAllTricks(), getAllBids());
+
 			// case when player is human
 			if (allPlayers.get(nextPlayer).getType().equals("human")){
 				allPlayers.get(nextPlayer).getHand().setTouchEnabled(true);
 				setStatus("Player " + nextPlayer + " double-click on card to lead.");
 				while (null == allPlayers.get(nextPlayer).getSelected()) delay(100);
 
-				// gets the card selected by the player from their hand
+				// gets the card selected by the human player from their hand
 				selected = allPlayers.get(nextPlayer).getSelected();
 			}
 
@@ -252,7 +283,9 @@ public class Oh_Heaven extends CardGame {
 				setStatusText("Player " + nextPlayer + " thinking...");
 				delay(thinkingTime);
 				Hand playerHand = ((NPC)allPlayers.get(nextPlayer)).getHand();
-				selected = ((NPC)allPlayers.get(nextPlayer)).getStrategy().selectCard(lead, trumps, trick, playerHand);
+
+				// gets the card selected by the NPC from their hand
+				selected = ((NPC)allPlayers.get(nextPlayer)).getStrategy().selectCard(table, playerHand, nextPlayer);
 			}
 
         	// Lead with selected card
@@ -273,11 +306,16 @@ public class Oh_Heaven extends CardGame {
 				selected = null;
 				allPlayers.get(nextPlayer).resetSelect();
 
+
+				table = new Table(trick, lead, trumps, getAllScores(), getAllTricks(), getAllBids());
+
 				// case when player is human
 				if (allPlayers.get(nextPlayer).getType().equals("human")) {
 					allPlayers.get(nextPlayer).getHand().setTouchEnabled(true);
 					setStatus("Player " + nextPlayer + " double-click on card to follow.");
 					while (null == allPlayers.get(nextPlayer).getSelected()) delay(100);
+
+					// gets the card selected by the human player from their hand
 					selected = allPlayers.get(nextPlayer).getSelected();
 				}
 
@@ -286,7 +324,9 @@ public class Oh_Heaven extends CardGame {
 					setStatusText("Player " + nextPlayer + " thinking...");
 					delay(thinkingTime);
 					Hand playerHand = ((NPC)allPlayers.get(nextPlayer)).getHand();
-					selected = ((NPC)allPlayers.get(nextPlayer)).getStrategy().selectCard(lead, trumps, trick, playerHand);
+
+					// gets the card selected by the NPC from their hand
+					selected = ((NPC)allPlayers.get(nextPlayer)).getStrategy().selectCard(table, playerHand, nextPlayer);
 				}
 
 				// Follow with selected card

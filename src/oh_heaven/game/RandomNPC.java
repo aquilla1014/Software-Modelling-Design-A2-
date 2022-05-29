@@ -7,8 +7,8 @@ public class RandomNPC extends NPC{
     // random NPC uses random strategy
     private static final TrickStrategy STRATEGY = new RandomStrategy();
 
-    public RandomNPC(){
-        super(TYPE, STRATEGY);
+    public RandomNPC(int index){
+        super(TYPE, STRATEGY, index);
     }
 
 

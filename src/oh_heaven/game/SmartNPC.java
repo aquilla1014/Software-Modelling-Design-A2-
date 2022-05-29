@@ -8,8 +8,8 @@ public class SmartNPC extends NPC {
     // smart NPC uses smart strategy
     private static final TrickStrategy STRATEGY = new SmartStrategy();
 
-    public SmartNPC(){
-        super(TYPE, STRATEGY);
+    public SmartNPC(int index){
+        super(TYPE, STRATEGY, index);
     }
 
 }

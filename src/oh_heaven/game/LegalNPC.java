@@ -8,8 +8,8 @@ public class LegalNPC extends NPC {
     // legal NPC uses legal strategy
     private static final TrickStrategy STRATEGY = new LegalStrategy();
 
-    public LegalNPC(){
-        super(TYPE, STRATEGY);
+    public LegalNPC(int index){
+        super(TYPE, STRATEGY, index);
     }
 
 }

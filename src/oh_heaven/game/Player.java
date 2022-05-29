@@ -8,6 +8,9 @@ public abstract class Player {
     // type of player
     private String type;
 
+    // index of player
+    private int index;
+
     // each player's personal in-game data
     private Hand hand;
     private Card selected;
@@ -15,8 +18,9 @@ public abstract class Player {
     private int trick;
     private int bid;
 
-    public Player(String type){
+    public Player(String type, int index){
         this.type = type;
+        this.index = index;
         initPlayer();
     }
 
@@ -40,11 +44,13 @@ public abstract class Player {
     public String getType(){
         return this.type;
     }
+    public int getIndex() {return this.index;}
     public int getScore() {return this.score;}
     public int getTrick() {return this.trick;}
     public int getBid() {return this.bid;}
     public Hand getHand() {return this.hand;}
     public Card getSelected() {return this.selected;}
+
 
     // setters for players
     public void setHand(Hand deck) {this.hand = deck;}

@@ -11,8 +11,8 @@ public abstract class NPC extends Player {
     // Each NPC has its own strategy, depending on their type
     private TrickStrategy strategy;
 
-    public NPC(String type, TrickStrategy strategy) {
-        super(type);
+    public NPC(String type, TrickStrategy strategy, int index) {
+        super(type, index);
         this.strategy = strategy;
     }
 

@@ -8,8 +8,8 @@ import ch.aplu.jcardgame.CardListener;
 public class Human extends Player{
     private static final String TYPE = "human";
 
-    public Human() {
-        super(TYPE);
+    public Human(int index) {
+        super(TYPE, index);
     }
 
     // Set up human player for interaction, moved from Oh_Heaven class

@@ -6,6 +6,7 @@ import oh_heaven.game.Oh_Heaven.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Map;
 
 // A smart strategy used by smart NPC
 public class SmartStrategy implements TrickStrategy {
@@ -25,14 +26,14 @@ public class SmartStrategy implements TrickStrategy {
     }
 
     // select a legal card, outputted by the smart strategy's logic
-    public Card selectCard(Suit lead, Suit trumps, Hand trick, Hand hand) {
-        trick.sort(Hand.SortType.SUITPRIORITY, true);
+    public Card selectCard(Table table, Hand hand, int nextPlayer) {
+        table.getTricks().sort(Hand.SortType.SUITPRIORITY, true);
 
-        ArrayList<Card> validTable = trick.getCardsWithSuit(lead);
-        ArrayList<Card> valid = hand.getCardsWithSuit(lead);
-        ArrayList<Card> trump = hand.getCardsWithSuit(trumps);
+        ArrayList<Card> validTable = table.getTricks().getCardsWithSuit(table.getLead());
+        ArrayList<Card> valid = hand.getCardsWithSuit(table.getLead());
+        ArrayList<Card> trump = hand.getCardsWithSuit(table.getTrump());
 
-        if (lead == null) {
+        if (table.getLead() == null) {
             // Smart NPC player leads the round, returns the highest ranked card it has
             hand.sort(Hand.SortType.RANKPRIORITY, true);
             return hand.getFirst();
