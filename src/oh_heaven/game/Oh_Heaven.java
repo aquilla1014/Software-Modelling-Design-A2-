@@ -246,10 +246,9 @@ public class Oh_Heaven extends CardGame {
 
 	int winner;
 	Card winningCard;
-
-	Hand trick;
+	Hand trick = null;
 	Suit lead = null;
-	Table table;
+	Table table = new Table(trick, lead, trumps, getAllScores(), getAllTricks(), getAllBids());
 
 	int nextPlayer = random.nextInt(nbPlayers); // randomly select player to lead for this round
 	initBids(trumps, nextPlayer);
@@ -263,10 +262,10 @@ public class Oh_Heaven extends CardGame {
 			// resets card selected by a player
 			allPlayers.get(nextPlayer).resetSelect();
 
-			// if (false) {
 			int thinkingTime = 2000;
 
-			table = new Table(trick, lead, trumps, getAllScores(), getAllTricks(), getAllBids());
+			// updates table during a lead
+			table.updateTable(lead, trick, getAllTricks());
 
 			// case when player is human
 			if (allPlayers.get(nextPlayer).getType().equals("human")){
@@ -306,8 +305,8 @@ public class Oh_Heaven extends CardGame {
 				selected = null;
 				allPlayers.get(nextPlayer).resetSelect();
 
-
-				table = new Table(trick, lead, trumps, getAllScores(), getAllTricks(), getAllBids());
+				// updates table following a lead
+				table.updateTable(lead, trick, getAllTricks());
 
 				// case when player is human
 				if (allPlayers.get(nextPlayer).getType().equals("human")) {

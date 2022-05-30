@@ -46,8 +46,9 @@ public class Table {
         return this.allBids;
     }
 
-    // update tricks of the table as it get changed/appended per round of a trick
-    public void updateTable(Hand trick, Map<Integer, Integer> allTricks ){
+    // update lead and tricks of the table as it get changed/appended per round of a trick
+    public void updateTable(Suit lead, Hand trick, Map<Integer, Integer> allTricks ){
+        this.lead = lead;
         this.trick = trick;
         this.allTricks = allTricks;
     }

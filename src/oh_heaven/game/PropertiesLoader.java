@@ -69,14 +69,24 @@ public class PropertiesLoader {
     }
 
     public static int loadTotalPlayers (Properties properties){
-        String nbPlayers = properties.getProperty("nbPlayers");
 
+        // As some variables are fixed in the Oh_Heaven class (like Location), allowing nbPlayers
+        // to be configured would possibly cause the game to crash/malfunction. However, once the interface
+        // of the game is changed, the code below will allow nbPlayer parameter to be configured.
+
+        // START
+        /*
+        String nbPlayers = properties.getProperty("nbPlayers");
         if (nbPlayers != null) {
             return Integer.parseInt(properties.getProperty("nbPlayers"));
         }
         else {
             return NBPLAYERS;
         }
+        */
+        // END
+
+        return NBPLAYERS;
     }
 
     public static int loadBidBonus (Properties properties){

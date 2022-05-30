@@ -2,34 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ca19fbe2-c5c5-4eb9-bb79-ba1b17ec6809" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/oh_heaven/game/Table.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/oh_heaven/game/Human$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/oh_heaven/game/Human$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/oh_heaven/game/Human.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/oh_heaven/game/Human.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/oh_heaven/game/Legal.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/oh_heaven/game/LegalStrategy.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/oh_heaven/game/LegalStrategy.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/oh_heaven/game/NPC.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/oh_heaven/game/NPC.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/oh_heaven/game/Oh_Heaven.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/oh_heaven/game/Oh_Heaven.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/oh_heaven/game/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/oh_heaven/game/Player.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/oh_heaven/game/PropertiesLoader.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/oh_heaven/game/PropertiesLoader.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/oh_heaven/game/RandomNPC.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/oh_heaven/game/RandomNPC.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/oh_heaven/game/RandomStrategy.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/oh_heaven/game/RandomStrategy.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/oh_heaven/game/Smart.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/oh_heaven/game/SmartStrategy$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/oh_heaven/game/SmartStrategy$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/oh_heaven/game/SmartStrategy.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/oh_heaven/game/SmartStrategy.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/oh_heaven/game/TrickStrategy.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/oh_heaven/game/TrickStrategy.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/oh_heaven/game/Human.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/oh_heaven/game/Human.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/properties/smart.properties" beforeDir="false" afterPath="$PROJECT_DIR$/properties/smart.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/oh_heaven/game/LegalNPC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/oh_heaven/game/LegalNPC.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/oh_heaven/game/LegalStrategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/oh_heaven/game/LegalStrategy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/oh_heaven/game/NPC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/oh_heaven/game/NPC.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/oh_heaven/game/Oh_Heaven.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/oh_heaven/game/Oh_Heaven.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/oh_heaven/game/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/oh_heaven/game/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/oh_heaven/game/PropertiesLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/oh_heaven/game/PropertiesLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/oh_heaven/game/RandomNPC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/oh_heaven/game/RandomNPC.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/oh_heaven/game/RandomStrategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/oh_heaven/game/RandomStrategy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/oh_heaven/game/SmartNPC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/oh_heaven/game/SmartNPC.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/oh_heaven/game/SmartStrategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/oh_heaven/game/SmartStrategy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/oh_heaven/game/TrickStrategy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/oh_heaven/game/TrickStrategy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/oh_heaven/game/Table.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/oh_heaven/game/Table.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
